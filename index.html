@@ -1,0 +1,185 @@
+html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pauline's Advisory — Warning</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;700;900&display=swap" rel="stylesheet" />
+  <style>
+    :root{
+      --black:#0a0a0a;
+      --white:#f5f3ee;
+      --pink:#fc2c85;
+      --dim: rgba(245,243,238,0.6);
+      --display:'Anton', 'Arial Narrow', sans-serif;
+      --body:'Inter', sans-serif;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--pink);
+      color: var(--white);
+      font-family: var(--body);
+      height: 100dvh;
+      overflow: hidden;
+    }
+
+    .gate {
+      display: flex;
+      flex-direction: column;
+      height: 100dvh;
+      transition: transform 0.8s cubic-bezier(0.76, 0, 0.24, 1);
+    }
+    .gate.exit {
+      transform: translateY(-100%);
+    }
+
+    /* Center block */
+    .center {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      pointer-events: none;
+      user-select: none;
+      line-height: 0.9;
+      text-align: center;
+    }
+    .center .emoji img {
+      width: clamp(160px, 20vw, 260px);
+      margin: 0 auto;
+    }
+    .center .word {
+      font-family: var(--display);
+      text-transform: uppercase;
+      font-size: clamp(80px, 20vw, 260px);
+      line-height: 0.9;
+      color: var(--black);
+      -webkit-text-stroke: 2px var(--white);
+      margin-top: 8px;
+    }
+
+    /* Bottom strip */
+    .bottom {
+      flex-shrink: 0;
+      padding: 24px 48px 40px;
+    }
+    .checklist {
+      list-style: none;
+      font-family: var(--body);
+      font-weight: 700;
+      font-size: clamp(13px, 1.4vw, 16px);
+      line-height: 1.8;
+      margin-bottom: 20px;
+    }
+    .divider {
+      width: 100%;
+      height: 1px;
+      background: var(--black);
+      margin-bottom: 20px;
+      opacity: 0.4;
+    }
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+    .small-text {
+      font-family: var(--body);
+      font-size: 10px;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      line-height: 1.6;
+      opacity: 0.8;
+      max-width: 360px;
+    }
+    .right-actions {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+    }
+    .boring-link {
+      font-family: var(--body);
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: rgba(10,10,10,0.6);
+      text-decoration: underline;
+      text-underline-offset: 3px;
+      cursor: pointer;
+    }
+    .boring-link:hover { color: var(--black); }
+
+    .cta {
+      font-family: var(--display);
+      font-weight: 400;
+      font-size: 20px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      background: var(--black);
+      color: var(--white);
+      border: 3px solid var(--black);
+      padding: 16px 40px;
+      cursor: pointer;
+      transition: background 0.15s, color 0.15s;
+      white-space: nowrap;
+    }
+    .cta:hover {
+      background: var(--white);
+      color: var(--black);
+    }
+
+    @media (max-width: 600px) {
+      .bottom { padding: 16px 24px 28px; }
+      .actions { flex-direction: column; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+  <div class="gate" id="gate">
+    <div class="center">
+      <div class="emoji"><img src="assets/warning.gif"/></div>
+      <div class="word">WARNING</div>
+    </div>
+
+    <div class="bottom">
+      <ul class="checklist">
+        <li>✓ Explicit business strategy</li>
+        <li>✓ Unfiltered market insights</li>
+        <li>✓ Uncomfortable truths</li>
+        <li>✓ Ideas your competitors avoid discussing</li>
+      </ul>
+
+      <div class="divider"></div>
+
+      <div class="actions">
+        <p class="small-text">
+          This website contains: unconventional thinking · strategic opinions · excessive confidence
+        </p>
+        <div class="right-actions">
+          <a href="https://www.linkedin.com" class="boring-link" target="_blank" rel="noopener">I prefer boring.</a>
+          <button class="cta" onclick="exitGate()">I AM READY</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function exitGate() {
+      const gate = document.getElementById('gate');
+      gate.classList.add('exit');
+      gate.addEventListener('transitionend', () => {
+        window.location.href = 'home.html';
+      }, { once: true });
+    }
+  </script>
+</body>
+</html>

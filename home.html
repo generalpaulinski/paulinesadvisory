@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PAULINE'S ADVISORY : EXPLICIT CONTENT</title>
+<meta name="description" content="Business advice for people who don't belong on LinkedIn.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --black:#0a0a0a;
+    --white:#f5f3ee;
+    --pink:#fc2c85;
+    --dim: rgba(245,243,238,0.6);
+    --display:'Anton', 'Arial Narrow', sans-serif;
+    --body:'Inter', sans-serif;
+  }
+  *{ box-sizing:border-box; margin:0; padding:0; }
+  html{ scroll-behavior:smooth; }
+  body{
+    font-family:var(--body);
+    background:var(--black);
+    color:var(--white);
+    overflow-x:hidden;
+    -webkit-font-smoothing:antialiased;
+  }
+  ::selection{ background:var(--pink); color:var(--black); }
+  a{ color:inherit; }
+  button, input{ font-family:var(--body); border-radius:0; }
+  :focus-visible{ outline:3px solid var(--pink); outline-offset:2px; }
+  img{ display:block; max-width:100%; }
+
+  .u{ text-transform:uppercase; }
+
+  /* ---------- fixed chrome ---------- */
+  .ticker-wrap{
+    position:fixed; top:0; left:0; right:0; z-index:900; background:var(--pink); color:var(--white);
+    overflow:hidden; white-space:nowrap;
+  }
+  .ticker-track{
+    display:inline-flex; animation:tick 22s linear infinite; font-weight:900; font-size:13px;
+    letter-spacing:0.05em; padding:10px 0; text-transform:uppercase;
+  }
+  .ticker-track span{ padding-right:2.2rem; }
+  @keyframes tick{ from{ transform:translateX(0); } to{ transform:translateX(-50%); } }
+
+  .badge{
+    position:fixed; top:60px; left:18px; z-index:895; width:120px; cursor:pointer; user-select:none;
+  }
+  .badge:hover{ transform:rotate(0deg) scale(1.05); }
+  .badge img{ width:100%; }
+  @media (max-width:700px){ .badge{ width:100px; top:60px; left:12px; } }
+
+  /* ---------- scene shared ---------- */
+  .scene{
+    min-height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center;
+    text-align:center; padding:110px 24px 60px; position:relative;
+  }
+  .scene.bg-black{ background:var(--black); color:var(--white); }
+  .scene.bg-white{ background:var(--white); color:var(--black); }
+  .scene.bg-pink{ background:var(--pink); color:var(--black); }
+
+  .tag{ font-size:11px; font-weight:700; letter-spacing:0.18em; margin-bottom:24px; opacity:0.7; }
+
+  h1,h2{ font-family:var(--display); text-transform:uppercase; line-height:0.96; letter-spacing:0.01em; }
+
+  /* ---------- scene 1 ---------- */
+  #scene1 .emoji{ font-size:clamp(40px,7vw,72px); margin-bottom:6px; }
+  #scene1 h1{ font-size:clamp(38px,8vw,110px); }
+  #scene1 h1 .pink{ color:var(--pink); }
+  .warn-list{ list-style:none; margin:34px auto 0; max-width:460px; text-align:left; font-size:15px; line-height:2; color:var(--dim); }
+  .warn-list li::before{ content:"— "; color:var(--pink); font-weight:700; }
+  .scroll-cue{
+    margin-top:52px; font-size:13px; font-weight:700; letter-spacing:0.08em; text-decoration:none;
+    display:inline-flex; flex-direction:column; align-items:center; gap:6px; color:var(--white);
+  }
+  .scroll-cue .arrow{ animation:bob 1.4s ease-in-out infinite; font-size:20px; }
+  @keyframes bob{ 50%{ transform:translateY(8px); } }
+
+  /* ---------- scene 2 ---------- */
+  #scene2 h2{ font-size:clamp(46px,11vw,150px); }
+  #scene2 h2 .line2{ color:var(--pink); }
+
+  /* pixelated "declassify" reveal on load */
+  #scene2 h2{
+    filter: blur(34px);
+    animation: pixel-reveal 1.7s steps(9, end) 0.15s both;
+  }
+  @keyframes pixel-reveal{
+    0%{ filter: blur(34px) contrast(1.4); opacity:0.75; }
+    55%{ filter: blur(12px) contrast(1.1); opacity:0.95; }
+    100%{ filter: blur(0px) contrast(1); opacity:1; }
+  }
+  @media (prefers-reduced-motion: reduce){
+    #scene2 h2{ animation:none; filter:none; }
+  }
+
+  /* ---------- NEW scene 3: industry grid ---------- */
+  .vice-section{
+    width:100%;
+    max-width:72rem;
+    margin:0 auto;
+    text-align:left;
+  }
+  .vice-section .tag{
+    font-size:11px;
+    font-weight:700;
+    letter-spacing:0.18em;
+    color:var(--pink);
+    margin-bottom:16px;
+    opacity:1;
+  }
+  .vice-section .headline{
+    font-family:var(--display);
+    font-weight:400;
+    text-transform:uppercase;
+    line-height:.9;
+    font-size:clamp(2.8rem,10vw,6rem);
+    margin-bottom:2rem;
+  }
+  .vice-section .headline .pink{ color:var(--pink); }
+
+  .grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:1px;
+    background:var(--white);
+    margin-bottom:2rem;
+  }
+  @media (min-width:640px){ .grid{grid-template-columns:repeat(3,1fr)} }
+  @media (min-width:768px){ .grid{grid-template-columns:repeat(4,1fr)} }
+
+  .cell{
+    background:var(--black);
+    padding:1.2rem 1rem;
+  }
+  .cell-k{
+    font-family:var(--display);
+    text-transform:uppercase;
+    font-size:1.2rem;
+    line-height:1.1;
+    letter-spacing:-0.02em;
+  }
+  .cell-n{
+    font-family:var(--body);
+    font-size:0.75rem;
+    letter-spacing:0.05em;
+    color:var(--dim);
+    margin-top:0.3rem;
+    line-height:1.4;
+  }
+
+  .vice-section .footnote{
+    font-size:0.75rem;
+    letter-spacing:0.1em;
+    color:var(--dim);
+    text-transform:uppercase;
+    max-width:42rem;
+  }
+
+  /* ---------- scene 4 ---------- */
+  #scene4 h2{ font-size:clamp(34px,8vw,100px); }
+  #scene4 h2 .line2{ color:var(--white); -webkit-text-stroke:2px var(--black); }
+
+  /* ---------- scene 6 (age gate) ---------- */
+  .gate-box{ max-width:480px; width:100%; }
+  #scene6 h2{ font-size:clamp(30px,6vw,64px); margin-bottom:36px; }
+  .gate-btns{ position:relative; height:100px; display:flex; justify-content:center; align-items:center; gap:26px; }
+  .gate-btn{
+    font-family:var(--display); font-size:22px; letter-spacing:0.04em; padding:20px 40px; cursor:pointer;
+    border:3px solid var(--black); background:none; color:var(--black);
+    transition:background .15s ease, color .15s ease, transform .18s ease;
+  }
+  .gate-btn:hover{ background:var(--black); color:var(--white); }
+  .gate-response{ margin-top:30px; font-size:16px; font-weight:700; min-height:24px; }
+
+  /* ---------- scene 7 (newsletter) ---------- */
+  #scene7 h2{ font-size:clamp(30px,6.4vw,80px); max-width:16ch; }
+  .news-form{
+    margin-top:40px; display:flex; gap:0; max-width:520px; width:100%; border:3px solid var(--white);
+  }
+  .news-form input{
+    flex:1; background:none; border:none; color:var(--white); padding:18px 20px; font-size:15px;
+  }
+  .news-form input::placeholder{ color:var(--dim); }
+  .news-form input:focus{ outline:none; }
+  .news-form button{
+    background:var(--pink); border:none; color:var(--black); font-weight:900; letter-spacing:0.05em;
+    padding:18px 26px; cursor:pointer; text-transform:uppercase; font-size:13px; border-left:3px solid var(--white);
+  }
+  .news-form button:hover{ background:var(--white); }
+  #news-response{ margin-top:20px; font-size:13px; color:var(--pink); font-weight:700; min-height:18px; }
+
+  /* ---------- scene 9 ---------- */
+  #scene9 h2{ font-size:clamp(30px,7vw,92px); }
+  #scene9 h2 .l3{ color:var(--pink); }
+
+  /* ---------- scene 10 (contact) ---------- */
+  #scene10 h2{ font-size:clamp(32px,7vw,96px); }
+  #scene10 .sub{ font-size:clamp(16px,2.4vw,24px); font-weight:500; margin-top:8px; margin-bottom:40px; opacity:0.7; font-style:italic; }
+  .contact-btn{
+    font-family:var(--display); font-size:clamp(18px,2.4vw,26px); letter-spacing:0.03em; padding:24px 48px;
+    background:var(--black); color:var(--white); border:3px solid var(--black); text-decoration:none; display:inline-block;
+    transition:background .15s ease, color .15s ease;
+  }
+  .contact-btn:hover{ background:var(--pink); border-color:var(--pink); color:var(--black); }
+
+  footer{ background:var(--white); color:var(--black); text-align:center; padding:36px 20px 44px; font-size:11px; }
+  footer .fine{ opacity:0.55; margin-top:8px; }
+
+  /* ---------- random popups ---------- */
+  .popup{
+    position:fixed; bottom:22px; right:22px; max-width:300px; background:var(--white); color:var(--black);
+    border:3px solid var(--black); padding:18px; z-index:6000; text-align:left;
+    transform:translateY(16px); opacity:0; transition:all .35s ease;
+  }
+  .popup.show{ transform:translateY(0); opacity:1; }
+  .popup-title{ font-size:11px; font-weight:900; letter-spacing:0.08em; color:var(--pink); margin-bottom:8px; display:flex; justify-content:space-between; gap:10px; text-transform:uppercase; }
+  .popup-close{ background:none; border:none; color:var(--black); cursor:pointer; font-size:15px; line-height:1; font-weight:900; }
+  .popup-body{ font-size:13.5px; font-weight:600; line-height:1.5; margin-bottom:14px; }
+  .popup-btn{
+    width:100%; background:var(--black); color:var(--white); border:none; padding:10px; font-weight:800;
+    font-size:11px; letter-spacing:0.06em; cursor:pointer; text-transform:uppercase;
+  }
+  .popup-btn:hover{ background:var(--pink); color:var(--black); }
+  @media (max-width:520px){ .popup{ left:16px; right:16px; max-width:none; } }
+
+  .shake{ animation:shake .4s ease; }
+  @keyframes shake{ 20%,60%{ transform:translateX(-8px); } 40%,80%{ transform:translateX(8px); } }
+
+  @media (prefers-reduced-motion: reduce){
+    html{ scroll-behavior:auto; }
+    .ticker-track{ animation:none; }
+    .scroll-cue .arrow{ animation:none; }
+    * { transition-duration:0.01ms !important; animation-duration:0.01ms !important; }
+  }
+</style>
+</head>
+<body>
+
+<div class="ticker-wrap"><div class="ticker-track" id="ticker"></div></div>
+<div class="badge" id="logo-badge" tabindex="0" role="button" aria-label="Pauline's Advisory logo">
+  <img src="assets/logo.jpg" alt="Pauline's Advisory: Explicit Content">
+</div>
+
+<!-- SCENE 2 -->
+<section class="scene bg-white" id="scene2">
+  <h2>Turning NSFW<br><span class="line2">Into Revenue.</span></h2>
+</section>
+
+<!-- SCENE 3 – INDUSTRY GRID -->
+<section class="scene bg-black" id="scene3">
+  <div class="vice-section">
+    <h3 class="headline">
+      They see a <br/>stigma.<br/> We see <span class="pink">a strategy.</span>
+    </h3>
+    <div class="grid">
+      <div class="cell"><div class="cell-k">cannabis</div><div class="cell-n">your bank hates you.</div></div>
+      <div class="cell"><div class="cell-k">adult</div><div class="cell-n">recession‑proof since forever.</div></div>
+      <div class="cell"><div class="cell-k">vape</div><div class="cell-n">the fda's little pen pal.</div></div>
+      <div class="cell"><div class="cell-k">gambling</div><div class="cell-n">the house always wins. we advise the house.</div></div>
+      <div class="cell"><div class="cell-k">crypto</div><div class="cell-n">yes, still. no, we won't explain.</div></div>
+      <div class="cell"><div class="cell-k">psychedelics</div><div class="cell-n">next decade's aspirin.</div></div>
+      <div class="cell"><div class="cell-k">onlyfans‑adjacent</div><div class="cell-n">creators are the new SaaS.</div></div>
+      <div class="cell"><div class="cell-k">tobacco 2.0</div><div class="cell-n">we don't judge. mostly.</div></div>
+    </div>
+    <p class="footnote">
+      we also take on "normal" businesses. don't feel special — we just charge you more for the privilege of being boring.
+    </p>
+  </div>
+</section>
+
+<!-- SCENE 4 -->
+<section class="scene bg-pink" id="scene4">
+  <h2>PEOPLE CALL IT TABOO.<br><span class="line2">WE CALL IT TUESDAY.</span></h2>
+</section>
+
+<!-- SCENE 6 -->
+<section class="scene bg-white" id="scene6">
+  <div class="gate-box">
+    <div class="tag" style="color:var(--pink); opacity:1;">AGE VERIFICATION REQUIRED</div>
+    <h2>ARE YOU OVER 18?</h2>
+    <div class="gate-btns">
+      <button class="gate-btn" id="gate-yes">YES</button>
+      <button class="gate-btn" id="gate-no">NO</button>
+    </div>
+    <div class="gate-response" id="gate-response"></div>
+  </div>
+</section>
+
+<!-- SCENE 7 -->
+<section class="scene bg-black" id="scene7">
+  <div class="tag">THE EXPLICIT NEWSLETTER</div>
+  <h2>BEST VIEWED IN<br>INCOGNITO MODE.</h2>
+  <div class="news-form">
+    <input type="email" id="news-email" placeholder="your@email.com" aria-label="Email">
+    <button id="news-submit">I'M IN →</button>
+  </div>
+  <div id="news-response"></div>
+</section>
+
+<!-- SCENE 10 -->
+<section class="scene bg-white" id="scene10">
+  <div class="tag" style="color:var(--pink); opacity:1;">GET IN TOUCH</div>
+  <h2>SLIDE INTO MY INBOX.</h2>
+  <div class="sub">Professionally.</div>
+  <a class="contact-btn" href="mailto:hello@paulines-advisory.example">hello@paulines-advisory.example</a>
+</section>
+
+<footer>
+  <div>© 2026 PAULINE'S ADVISORY. UNAUTHORIZED DISTRIBUTION OF THIS STRATEGY IS ENCOURAGED.</div>
+</footer>
+
+<div id="popup-container"></div>
+
+<script>
+(function(){
+
+  /* ---------- TICKER ---------- */
+  const msg = "⚠️ EXPLICIT BUSINESS CONTENT 🚫 VIEWER DISCRETION ADVISED 💸 SIDE EFFECTS MAY INCLUDE REVENUE 🫢 YOUR CONSULTANT HATES THIS WEBSITE 🥵 HIGH-RISK. HIGHER REWARD. 💅 PROFESSIONALLY INAPPROPRIATE 🍿 THIS ESCALATED QUICKLY ";
+  document.getElementById('ticker').innerHTML = '<span>'+msg+'</span><span>'+msg+'</span>';
+
+  /* ---------- LOGO EASTER EGG ---------- */
+  const badge = document.getElementById('logo-badge');
+  function bumpBadge(){
+    badge.style.transform = 'rotate(' + (Math.random()*20-10).toFixed(1) + 'deg) scale(1.1)';
+    setTimeout(()=>{ badge.style.transform = ''; }, 250);
+  }
+  badge.addEventListener('click', bumpBadge);
+  badge.addEventListener('keydown', (e)=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); bumpBadge(); } });
+
+  /* ---------- SCENE 6: age gate, both buttons dodge the cursor ---------- */
+  const gateBtns = document.querySelector('.gate-btns');
+  const noBtn = document.getElementById('gate-no');
+  const yesBtn = document.getElementById('gate-yes');
+  const gateResponse = document.getElementById('gate-response');
+  const MAX_DODGES = 6;
+
+  function makeDodger(btn){
+    let dodges = 0;
+    btn.addEventListener('mouseenter', ()=>{
+      if(dodges >= MAX_DODGES) return;
+      dodges++;
+      const rect = gateBtns.getBoundingClientRect();
+      const maxX = rect.width/2 - 90;
+      const maxY = 26;
+      const x = (Math.random()*2-1) * maxX;
+      const y = (Math.random()*2-1) * maxY;
+      btn.style.transform = `translate(${x}px, ${y}px)`;
+    });
+  }
+  makeDodger(noBtn);
+  makeDodger(yesBtn);
+
+  const noResponses = [
+    "Come back after your first startup fails.",
+    "Nice try. Minors don't get invoiced either.",
+    "We checked. Still no."
+  ];
+  const yesResponses = [
+    "Cool. Neither are we, emotionally.",
+    "Bold claim. We'll allow it.",
+    "Great — now act like it and subscribe."
+  ];
+
+  noBtn.addEventListener('click', ()=>{
+    gateResponse.textContent = noResponses[Math.floor(Math.random()*noResponses.length)];
+    gateResponse.style.color = 'var(--pink)';
+  });
+  yesBtn.addEventListener('click', ()=>{
+    gateResponse.textContent = yesResponses[Math.floor(Math.random()*yesResponses.length)];
+    gateResponse.style.color = 'var(--black)';
+  });
+
+  /* ---------- SCENE 7: newsletter ---------- */
+  const newsBtn = document.getElementById('news-submit');
+  const newsInput = document.getElementById('news-email');
+  const newsResponse = document.getElementById('news-response');
+  newsBtn.addEventListener('click', ()=>{
+    const val = newsInput.value.trim();
+    if(!val || !val.includes('@')){
+      newsResponse.textContent = "that's not an email. nice try though.";
+      return;
+    }
+    newsResponse.textContent = "screenshotted. we mean, subscribed.";
+    newsInput.value = '';
+  });
+  newsInput.addEventListener('keydown', (e)=>{ if(e.key==='Enter') newsBtn.click(); });
+
+  /* ---------- RANDOM POPUPS ---------- */
+  const popupContainer = document.getElementById('popup-container');
+  const popupData = [
+    { title:"⚠ Warning", body:"Your competitor still hired Deloitte.", btn:"Noted" },
+    { title:"Account Suspended", body:"This account was permanently deleted for 'repeated community guideline violations.' We call it Tuesday.", btn:"Appeal (lol)" },
+    { title:"Unavailable", body:"This content is blurred or not shown in your region. Your region has feelings.", btn:"Fine" },
+    { title:"Reach: -97%", body:"Engagement down. Impressions down. Invoices unaffected. That's the business model.", btn:"Relatable" },
+    { title:"Payment Processor", body:"Your merchant account was flagged, frozen, and quietly forgotten. Welcome to the industry.", btn:"Ugh" },
+    { title:"Restricted", body:"This opinion has been removed for being too correct.", btn:"OK" },
+  ];
+  let popupIndex = 0;
+  let popupsShown = 0;
+  const MAX_POPUPS = 5;
+  let started = false;
+  let popupInterval;
+
+  function showPopup(){
+    if(popupsShown >= MAX_POPUPS) return;
+    const data = popupData[popupIndex % popupData.length];
+    popupIndex++;
+    popupsShown++;
+    const el = document.createElement('div');
+    el.className = 'popup';
+    el.innerHTML = `
+      <div class="popup-title"><span>${data.title}</span><button class="popup-close" aria-label="Dismiss">×</button></div>
+      <div class="popup-body">${data.body}</div>
+      <button class="popup-btn">${data.btn}</button>
+    `;
+    popupContainer.appendChild(el);
+    requestAnimationFrame(()=> el.classList.add('show'));
+    function dismiss(){ el.classList.remove('show'); setTimeout(()=> el.remove(), 350); }
+    el.querySelector('.popup-close').addEventListener('click', dismiss);
+    el.querySelector('.popup-btn').addEventListener('click', dismiss);
+    setTimeout(dismiss, 8000);
+  }
+
+  function startPopups(){
+    if(started) return;
+    started = true;
+    setTimeout(showPopup, 4000);
+    popupInterval = setInterval(()=>{
+      if(popupsShown >= MAX_POPUPS){ clearInterval(popupInterval); return; }
+      showPopup();
+    }, 13000);
+  }
+
+  const startObserver = new IntersectionObserver((entries)=>{
+    entries.forEach(entry=>{ if(entry.isIntersecting){ startPopups(); startObserver.disconnect(); } });
+  }, { threshold:0.3 });
+  startObserver.observe(document.getElementById('scene2'));
+
+})();
+</script>
+
+</body>
+</html>
