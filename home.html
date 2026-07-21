@@ -65,32 +65,21 @@
 
   h1,h2{ font-family:var(--display); text-transform:uppercase; line-height:0.96; letter-spacing:0.01em; }
 
-  /* ---------- scene 1 ---------- */
-  #scene1 .emoji{ font-size:clamp(40px,7vw,72px); margin-bottom:6px; }
-  #scene1 h1{ font-size:clamp(38px,8vw,110px); }
-  #scene1 h1 .pink{ color:var(--pink); }
-  .warn-list{ list-style:none; margin:34px auto 0; max-width:460px; text-align:left; font-size:15px; line-height:2; color:var(--dim); }
-  .warn-list li::before{ content:"— "; color:var(--pink); font-weight:700; }
-  .scroll-cue{
-    margin-top:52px; font-size:13px; font-weight:700; letter-spacing:0.08em; text-decoration:none;
-    display:inline-flex; flex-direction:column; align-items:center; gap:6px; color:var(--white);
-  }
-  .scroll-cue .arrow{ animation:bob 1.4s ease-in-out infinite; font-size:20px; }
-  @keyframes bob{ 50%{ transform:translateY(8px); } }
-
   /* ---------- scene 2 ---------- */
-  #scene2 h2{ font-size:clamp(46px,11vw,150px); }
+  #scene2{ isolation:isolate; }
+  #scene2 h2{ font-size:clamp(46px,11vw,150px); background:var(--white); }
   #scene2 h2 .line2{ color:var(--pink); }
 
-  /* pixelated "declassify" reveal on load */
+  /* fixed: smooth-eased blur reveal instead of steps() to avoid the
+     cross-browser "ghost box" compositing artifact behind the text */
   #scene2 h2{
-    filter: blur(34px);
-    animation: pixel-reveal 1.7s steps(9, end) 0.15s both;
+    animation: pixel-reveal 1.5s cubic-bezier(0.22, 0.61, 0.36, 1) 0.15s both;
   }
   @keyframes pixel-reveal{
-    0%{ filter: blur(34px) contrast(1.4); opacity:0.75; }
-    55%{ filter: blur(12px) contrast(1.1); opacity:0.95; }
-    100%{ filter: blur(0px) contrast(1); opacity:1; }
+    0%{ filter: blur(28px); opacity:0.7; }
+    40%{ filter: blur(14px); opacity:0.88; }
+    70%{ filter: blur(5px); opacity:0.97; }
+    100%{ filter: blur(0px); opacity:1; }
   }
   @media (prefers-reduced-motion: reduce){
     #scene2 h2{ animation:none; filter:none; }
@@ -123,13 +112,11 @@
 
   .grid{
     display:grid;
-    grid-template-columns:repeat(2,1fr);
+    grid-template-columns:repeat(3,1fr);
     gap:1px;
     background:var(--white);
     margin-bottom:2rem;
   }
-  @media (min-width:640px){ .grid{grid-template-columns:repeat(3,1fr)} }
-  @media (min-width:768px){ .grid{grid-template-columns:repeat(4,1fr)} }
 
   .cell{
     background:var(--black);
@@ -208,6 +195,8 @@
 
   footer{ background:var(--white); color:var(--black); text-align:center; padding:36px 20px 44px; font-size:11px; }
   footer .fine{ opacity:0.55; margin-top:8px; }
+  footer .foot-links{ margin-top:14px; }
+  footer .foot-links a{ text-decoration:underline; font-weight:700; }
 
   /* ---------- random popups ---------- */
   .popup{
@@ -232,7 +221,6 @@
   @media (prefers-reduced-motion: reduce){
     html{ scroll-behavior:auto; }
     .ticker-track{ animation:none; }
-    .scroll-cue .arrow{ animation:none; }
     * { transition-duration:0.01ms !important; animation-duration:0.01ms !important; }
   }
 </style>
@@ -258,12 +246,10 @@
     <div class="grid">
       <div class="cell"><div class="cell-k">cannabis</div><div class="cell-n">your bank hates you.</div></div>
       <div class="cell"><div class="cell-k">adult</div><div class="cell-n">recession‑proof since forever.</div></div>
-      <div class="cell"><div class="cell-k">vape</div><div class="cell-n">the fda's little pen pal.</div></div>
       <div class="cell"><div class="cell-k">gambling</div><div class="cell-n">the house always wins. we advise the house.</div></div>
       <div class="cell"><div class="cell-k">crypto</div><div class="cell-n">yes, still. no, we won't explain.</div></div>
       <div class="cell"><div class="cell-k">psychedelics</div><div class="cell-n">next decade's aspirin.</div></div>
       <div class="cell"><div class="cell-k">onlyfans‑adjacent</div><div class="cell-n">creators are the new SaaS.</div></div>
-      <div class="cell"><div class="cell-k">tobacco 2.0</div><div class="cell-n">we don't judge. mostly.</div></div>
     </div>
     <p class="footnote">
       we also take on "normal" businesses. don't feel special — we just charge you more for the privilege of being boring.
@@ -305,11 +291,12 @@
   <div class="tag" style="color:var(--pink); opacity:1;">GET IN TOUCH</div>
   <h2>SLIDE INTO MY INBOX.</h2>
   <div class="sub">Professionally.</div>
-  <a class="contact-btn" href="mailto:hello@paulines-advisory.example">hello@paulines-advisory.example</a>
+  <a class="contact-btn" href="https://www.linkedin.com/in/pauline-schmiechen/" target="_blank" rel="noopener">DM ME ON LINKEDIN</a>
 </section>
 
 <footer>
   <div>© 2026 PAULINE'S ADVISORY. UNAUTHORIZED DISTRIBUTION OF THIS STRATEGY IS ENCOURAGED.</div>
+  <div class="foot-links"><a href="impressum.html">Impressum</a></div>
 </footer>
 
 <div id="popup-container"></div>
@@ -356,12 +343,12 @@
   const noResponses = [
     "Come back after your first startup fails.",
     "Nice try. Minors don't get invoiced either.",
-    "We checked. Still no."
+    "Persistent. We respect that. Still no."
   ];
   const yesResponses = [
-    "Cool. Neither are we, emotionally.",
+    "Great — now act like it and subscribe.",
     "Bold claim. We'll allow it.",
-    "Great — now act like it and subscribe."
+    "Sure you are. Everyone says that."
   ];
 
   noBtn.addEventListener('click', ()=>{
@@ -391,9 +378,8 @@
   /* ---------- RANDOM POPUPS ---------- */
   const popupContainer = document.getElementById('popup-container');
   const popupData = [
-    { title:"⚠ Warning", body:"Your competitor still hired Deloitte.", btn:"Noted" },
-    { title:"Account Suspended", body:"This account was permanently deleted for 'repeated community guideline violations.' We call it Tuesday.", btn:"Appeal (lol)" },
-    { title:"Unavailable", body:"This content is blurred or not shown in your region. Your region has feelings.", btn:"Fine" },
+    { title:"Account Suspended", body:"This account was permanently deleted for 'repeated community guideline violations.'", btn:"Appeal (lol)" },
+    { title:"Unavailable", body:"This content is blurred or not shown in your region. Your region is boring and not interested in tax money.", btn:"Fine" },
     { title:"Reach: -97%", body:"Engagement down. Impressions down. Invoices unaffected. That's the business model.", btn:"Relatable" },
     { title:"Payment Processor", body:"Your merchant account was flagged, frozen, and quietly forgotten. Welcome to the industry.", btn:"Ugh" },
     { title:"Restricted", body:"This opinion has been removed for being too correct.", btn:"OK" },
