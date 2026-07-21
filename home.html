@@ -66,8 +66,7 @@
   h1,h2{ font-family:var(--display); text-transform:uppercase; line-height:0.96; letter-spacing:0.01em; }
 
   /* ---------- scene 2 ---------- */
-  #scene2{ isolation:isolate; }
-  #scene2 h2{ font-size:clamp(46px,11vw,150px); background:var(--white); }
+  #scene2 h2{ font-size:clamp(46px,11vw,150px); will-change: filter; }
   #scene2 h2 .line2{ color:var(--pink); }
 
   /* fixed: smooth-eased blur reveal instead of steps() to avoid the
