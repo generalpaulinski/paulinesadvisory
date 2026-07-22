@@ -505,19 +505,36 @@ makeDodger(yesBtn);
   });
 
   /* ---------- SCENE 7: newsletter ---------- */
-  const newsBtn = document.getElementById('news-submit');
-  const newsInput = document.getElementById('news-email');
-  const newsResponse = document.getElementById('news-response');
-  newsBtn.addEventListener('click', ()=>{
-    const val = newsInput.value.trim();
-    if(!val || !val.includes('@')){
-      newsResponse.textContent = "that's not an email. nice try though.";
-      return;
-    }
+const newsBtn = document.getElementById('news-submit');
+const newsInput = document.getElementById('news-email');
+const newsResponse = document.getElementById('news-response');
+
+const SHEET_ENDPOINT = 'https://script.google.com/macros/s/AKfycbyU2r0_jZQbgJdU2AC0VMzB2N01amX_YEiiOhqX5q2lPggSZl8_nnsLwd-yiZaTFbaR/exec';
+
+newsBtn.addEventListener('click', ()=>{
+  const val = newsInput.value.trim();
+  if(!val || !val.includes('@')){
+    newsResponse.textContent = "that's not an email. nice try though.";
+    return;
+  }
+  newsBtn.disabled = true;
+  newsResponse.textContent = "sending...";
+
+  fetch(SHEET_ENDPOINT, {
+    method: 'POST',
+    body: new URLSearchParams({ email: val })
+  })
+  .then(()=>{
     newsResponse.textContent = "screenshotted. we mean, subscribed.";
     newsInput.value = '';
+    newsBtn.disabled = false;
+  })
+  .catch(()=>{
+    newsResponse.textContent = "something broke. try again in a sec.";
+    newsBtn.disabled = false;
   });
-  newsInput.addEventListener('keydown', (e)=>{ if(e.key==='Enter') newsBtn.click(); });
+});
+newsInput.addEventListener('keydown', (e)=>{ if(e.key==='Enter') newsBtn.click(); });
 
   /* ---------- RANDOM POPUPS ---------- */
   const popupContainer = document.getElementById('popup-container');
